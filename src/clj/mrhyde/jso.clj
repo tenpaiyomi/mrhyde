@@ -25,7 +25,7 @@
 
 (defn intest-fn [x]
   (if (coll? x)
-    (vec (map #(intest-fn %) x))
+    (vec (map intest-fn x))
     x))
 
 (defmacro intest [x]
@@ -33,7 +33,7 @@
 
 (defn inwards-fn [x]
   (if (coll? x)
-    (concat (list 'cljs.core/array) (map #(inwards-fn %) x))
+    (concat (list 'cljs.core/array) (map inwards-fn x))
     x))
 
 (defmacro inwards [x]
@@ -44,9 +44,9 @@
     (symbol? x) (str x)
     (keyword? x) (name x)
     (map? x) (concat (list 'cljs.core/js-obj) 
-                (map #(jso-fn %) (reduce into [] x)))
+                (map jso-fn (reduce into [] x)))
     (coll? x) (concat (list 'cljs.core/array)
-                (map #(jso-fn %) x))
+                (map jso-fn x))
     :else x))
 
 (defmacro jso [x]
